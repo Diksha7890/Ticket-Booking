@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket-Booking</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0;
+        }
+
+        body {
+            min-height: 99vh;
+            min-width: 80vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid black;
+            background-color: rgb(154, 199, 245);
+            border-radius: 10px;
+
+        }
+
+        form {
+            margin: 10px;
+            padding: 2px;
+        }
+
+        header h2 {
+            font-size: 50px;
+            margin-right: 3em;
+            text-decoration: underline
+        }
+
+        body header {
+            font-size: 30px;
+            display: flex;
+            gap: 2em;
+            justify-content: space-between;
+            margin: 4px;
+        }
+
+        main {
+            background-color: rgb(245, 181, 181);
+            height: 80vh;
+            width: 80vw;
+            border: 3px solid brown;
+            border-radius: 10px;
+            gap: 2em;
+        }
+
+        .set {
+            font-size: 50px;
+            font-weight: 500;
+            padding: 20px;
+            color: blue;
+            transition-duration: 2s;
+            text-align: center;
+
+        }
+
+        .search {
+            padding: 2px;
+            margin: 0px;
+        }
+
+        .serch-btn {
+            padding: 2px;
+            border: 1px solid black;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .user-details {
+            margin: 22px;
+            font-size: 20px;
+        }
+
+        input {
+            padding: 3px;
+            width: fit-content;
+            border-color: brown;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .btn {
+            padding: 8px;
+            width: 10vw;
+            margin-left: 33px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            background: #000;
+            border: 2px solid black;
+            background-color: rgb(120, 48, 48);
+
+        }
+
+        .serch-btn:hover,
+        .btn:hover {
+            cursor: pointer;
+            background-color: rgb(14, 34, 161)
+        }
+    </style>
+
+<body>
+    <header>
+        <h2>Bus Ticket Booking</h2>
+        <div class="serch">
+            <input type="number" class="search" placeholder="Enter Id..." />
+            <button class="serch-btn">Search User</button>
+        </div>
+    </header>
+    <main>
+        <form id="user-form" novalidate>
+            <div class="user-details">
+                <label for="name">
+                    <h2 class="user">Name</h2>
+                    <input type="text" class="user-name" placeholder="Enter Name" />
+                </label>
+                <label for="from">
+                    <h2 class="user">From</h2>
+                    <input type="text" class="from-city" placeholder="from...." />
+                </label>
+                <label for="to">
+                    <h2 class="user">To</h2>
+                    <input type="text" class="to-city" placeholder="to...." />
+                </label>
+            </div>
+            <button type="submit" class="btn">BOOK</button>
+        </form>
+        <p class="msg"></p>
+    </main>
+
+    <script>
+        let arr = [];
+        let form = document.querySelector('#user-form');
+        let search = document.querySelector('.search');
+        let srchBtn = document.querySelector('.serch-btn');
+        let msg = document.querySelector('.msg');
+
+        srchBtn.addEventListener('click', () => {
+            let personId = Number(search.value);
+            for (let o of arr) {
+                if (o.id == personId) {
+                    msg.innerText = `${o.name} has booked ticket from ${o.from} to ${o.to}.`
+                    search.value = "";
+                    msg.classList.add('set');
+                    return;
+                }
+            }
+            msg.innerText = "No ticket booked from this Id!!"
+            msg.classList.add('set');
+
+        })
+        function bookTicket(eventArr) {
+            let id = Math.floor(Math.random() * 100)
+            let idValue = id;
+            person = {
+                id: idValue,
+                name: eventArr[0].value,
+                from: eventArr[1].value,
+                to: eventArr[2].value
+            }
+            alert(`Your ticket is booked & your id is ${idValue}`)
+            arr.push(person);
+
+            form.reset();
+        }
+        function checkError(eventArr) {
+            if (eventArr[0].value == "" || eventArr[1].value == "" || eventArr[2].value == "") {
+                alert("please enter valid details");
+                form.reset();
+            }
+            else bookTicket(eventArr);
+
+        }
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            eventArr = Array.from(e.target);
+            checkError(eventArr);
+
+        })
+    </script>
+</body>
+
+</html>
